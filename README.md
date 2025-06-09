@@ -1,6 +1,6 @@
 # NoobChain - A Simple Blockchain Implementation
 
-Welcome to NoobChain! This is a beginner-friendly blockchain implementation that helps you understand how blockchains work.
+This is a beginner-friendly blockchain implementation that helps you understand how blockchains work.
 
 ## What is a Blockchain?
 
