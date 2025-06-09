@@ -1,6 +1,6 @@
 # NoobChain - A Simple Blockchain Implementation
 
-Welcome to NoobChain! This is a beginner-friendly blockchain implementation that helps you understand how blockchains work. Think of it as a digital ledger (like a notebook) where each page (block) is connected to the previous one in a special way that makes it impossible to cheat or change past entries.
+Welcome to NoobChain! This is a beginner-friendly blockchain implementation that helps you understand how blockchains work.
 
 ## What is a Blockchain?
 
@@ -13,7 +13,7 @@ Imagine you have a chain of blocks, where each block contains some information (
 
 ### 1. Creating Blocks
 Think of each block like a page in a notebook:
-- It has some information (like "Alice sent 5 coins to Bob")
+- It has some information (like "Chelsea are the best club in europe")
 - It knows about the previous page (block)
 - It has a timestamp (when it was created)
 - It has a special code (hash) that makes it unique
@@ -114,4 +114,167 @@ This project is licensed under the MIT License.
 ## Acknowledgments
 - Built for educational purposes
 - Inspired by basic blockchain concepts
-- Uses Google's Gson library for JSON handling 
+- Uses Google's Gson library for JSON handling
+
+## System Architecture and Flow
+
+### High-Level Architecture
+```
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│                 │     │                 │     │                 │
+│  Block Creation │────▶│    Mining      │────▶│ Chain Validation│
+│                 │     │                 │     │                 │
+└─────────────────┘     └─────────────────┘     └─────────────────┘
+        │                       │                       │
+        ▼                       ▼                       ▼
+┌─────────────────┐     ┌─────────────────┐     ┌─────────────────┐
+│                 │     │                 │     │                 │
+│  Block Storage  │◀───▶│  Hash Chain     │◀───▶│  JSON Output    │
+│                 │     │                 │     │                 │
+└─────────────────┘     └─────────────────┘     └─────────────────┘
+```
+
+### Block Structure
+```
+┌─────────────────────────────────────────────┐
+│ Block                                       │
+├─────────────────────────────────────────────┤
+│ • Hash (current block's hash)               │
+│ • PreviousHash (link to previous block)     │
+│ • Data (transaction information)            │
+│ • TimeStamp (creation time)                 │
+│ • Nonce (mining parameter)                  │
+└─────────────────────────────────────────────┘
+```
+
+### Data Flow
+```
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│  New Block  │───▶│   Mining    │───▶│  Validation │
+└─────────────┘    └─────────────┘    └─────────────┘
+       │                │                    │
+       ▼                ▼                    ▼
+┌─────────────┐    ┌─────────────┐    ┌─────────────┐
+│  Calculate  │    │  Find Valid │    │  Check Chain│
+│    Hash     │    │    Nonce    │    │  Integrity  │
+└─────────────┘    └─────────────┘    └─────────────┘
+```
+
+## Detailed Functionality
+
+### 1. Block Creation Process
+```
+Input: Transaction Data
+       │
+       ▼
+1. Create Block
+   - Generate timestamp
+   - Set previous hash
+   - Initialize nonce
+       │
+       ▼
+2. Calculate Initial Hash
+   - Combine: previousHash + timestamp + nonce + data
+   - Apply SHA-256
+       │
+       ▼
+3. Add to Blockchain
+```
+
+### 2. Mining Process
+```
+Start Mining
+    │
+    ▼
+1. Set Target
+   - Create string of zeros (difficulty level)
+    │
+    ▼
+2. Try Nonce Values
+   - Start with nonce = 0
+   - Increment nonce
+   - Calculate new hash
+    │
+    ▼
+3. Check Hash
+   - Does hash start with required zeros?
+   ┌─ Yes ──▶ Mining Complete
+   └─ No ───▶ Try Next Nonce
+```
+
+### 3. Chain Validation Process
+```
+Start Validation
+    │
+    ▼
+1. Check Each Block
+   - Verify current hash
+   - Verify previous hash link
+   - Verify mining proof
+    │
+    ▼
+2. Check Chain Continuity
+   - All blocks properly linked
+   - No missing blocks
+    │
+    ▼
+3. Output Result
+   - Chain valid/invalid
+```
+
+## Component Interaction
+
+### Block Creation and Mining
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│  NoobChain  │────▶│    Block    │────▶│ StringUtil  │
+└─────────────┘     └─────────────┘     └─────────────┘
+       │                   │                   │
+       ▼                   ▼                   ▼
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│  Blockchain │◀───▶│    Hash     │◀───▶│    JSON     │
+│    Array    │     │ Generation  │     │ Conversion  │
+└─────────────┘     └─────────────┘     └─────────────┘
+```
+
+### Data Flow Between Components
+```
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│  User Input │────▶│  Block      │────▶│  Mining     │
+│  (Data)     │     │ Creation    │     │ Process    │
+└─────────────┘     └─────────────┘     └─────────────┘
+       │                   │                   │
+       ▼                   ▼                   ▼
+┌─────────────┐     ┌─────────────┐     ┌─────────────┐
+│  Blockchain │◀───▶│  Hash       │◀───▶│  Validation │
+│  Storage    │     │ Chain       │     │ Process    │
+└─────────────┘     └─────────────┘     └─────────────┘
+```
+
+## Implementation Details
+
+### 1. Block Class
+- **Purpose**: Represents a single block in the chain
+- **Key Methods**:
+  - `calculateHash()`: Generates block's hash
+  - `mineBlock()`: Performs mining process
+- **Properties**:
+  - Hash
+  - PreviousHash
+  - Data
+  - TimeStamp
+  - Nonce
+
+### 2. StringUtil Class
+- **Purpose**: Provides utility functions
+- **Key Methods**:
+  - `applySha256()`: Cryptographic hashing
+  - `getJson()`: JSON conversion
+  - `getDificultyString()`: Mining target generation
+
+### 3. NoobChain Class
+- **Purpose**: Main blockchain implementation
+- **Key Methods**:
+  - `addBlock()`: Adds new blocks
+  - `isChainValid()`: Validates chain
+  - `main()`: Demonstrates usage 
