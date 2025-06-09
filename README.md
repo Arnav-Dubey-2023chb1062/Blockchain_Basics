@@ -92,25 +92,6 @@ blockchain.add(secondBlock);
    ```bash
    java -jar target/noobchain-1.0-SNAPSHOT-jar-with-dependencies.jar
    ```
-
-## What You'll Learn
-By studying this implementation, you'll understand:
-- How blocks are created and connected
-- How mining works
-- How the blockchain stays secure
-- How to validate the chain
-- The basic principles of blockchain technology
-
-## Contributing
-Feel free to:
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Submit a pull request
-
-## License
-This project is licensed under the MIT License.
-
 ## Acknowledgments
 - Built for educational purposes
 - Inspired by basic blockchain concepts
