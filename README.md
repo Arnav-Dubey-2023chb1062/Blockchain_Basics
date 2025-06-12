@@ -242,7 +242,7 @@ Start Validation
 - **Properties**:
   - Hash
   - PreviousHash
-  - Data
+  - Data(Inside the Block)
   - TimeStamp
   - Nonce
 
